@@ -7,14 +7,21 @@
             background-color: black;
             overflow: hidden;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
+        }
+        h1 {
+            font-family: 'Times New Roman', serif;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: normal;
         }
         .gallery {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            height: 80vh;
         }
         .randomized {
             position: absolute;
@@ -25,6 +32,7 @@
     </style>
 </head>
 <body>
+    <h1><a href="upcoming.html" style="color: white; text-decoration: none;">Chris Comfort</a></h1>
     <div class="gallery" id="gallery"></div>
     
     <script>
