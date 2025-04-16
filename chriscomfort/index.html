@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chris Comfort</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <style>
+        body {
+            background-color: black;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            font-family: 'Times New Roman', serif;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: normal;
+        }
+        #email {
+            color: white;
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            margin-top: 3px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        #email:hover {
+            opacity: 0.7;
+        }
+        .gallery {
+            position: relative;
+            width: 100vw;
+            height: 80vh;
+        }
+        .randomized {
+            position: absolute;
+            max-width: 200px;
+            max-height: 200px;
+            transition: transform 2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h1><a href="upcoming.html" style="color: white; text-decoration: none;">Chris Comfort</a></h1>
+    <p id="email" onclick="copyEmail()">email@chriscomfort.email</p>
+
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+        function copyEmail() {
+            const email = "email@chriscomfort.email";
+            navigator.clipboard.writeText(email).then(() => {
+                alert("Email copied to clipboard!");
+            }, () => {
+                alert("Failed to copy email.");
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = [
+                "images/Untitled_1.3.3.jpg", "images/Untitled_1.3.8.jpg", "images/Untitled_1.36.1.JPEG", "images/Untitled_1.6.1.jpg", 
+                "images/Untitled_1.1.2.jpg", "images/ed5.png", "images/onaw1.png", "images/onaw2.png", "images/jade1.png", 
+                "images/ed3.png", "images/Untitled_1.14.1.JPEG", "images/Untitled_2.13.1.JPEG", "images/mvg_1.3.6.jpg",
+                "images/IMG_2028.PNG", "images/IMG_2030.PNG", "images/IMG_2039.PNG", "images/IMG_4469.PNG", "images/CB1.PNG",
+                "images/dan1.png", "images/box1.PNG", "images/dan2.png", "images/MMIM1.JPEG", "images/dan3.png",
+                "images/CB2.JPG", "images/dan4.png"
+            ];
+
+            const gallery = document.getElementById("gallery");
+
+            images.forEach(src => {
+                let img = document.createElement("img");
+                img.src = src;
+                img.classList.add("randomized");
+
+                img.style.left = Math.random() * (window.innerWidth - 200) + "px";
+                img.style.top = Math.random() * (window.innerHeight - 200) + "px";
+
+                gallery.appendChild(img);
+            });
+        });
+    </script>
+</body>
+</html>
