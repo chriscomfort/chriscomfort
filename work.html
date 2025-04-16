@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Work – Chris Comfort</title>
   <style>
     html, body {
@@ -30,15 +31,8 @@
       transition: filter 0.2s ease-out;
     }
 
-    #bg-video {
-      z-index: 0;
-    }
-
-    #grain-video {
-      z-index: 1;
-      opacity: 0.06;
-      mix-blend-mode: screen;
-    }
+    #bg-video { z-index: 0; }
+    #grain-video { z-index: 1; opacity: 0.06; mix-blend-mode: screen; }
 
     .main-content {
       opacity: 1;
@@ -141,11 +135,17 @@
       52% { opacity: 0.98; }
       55% { opacity: 0.92; }
     }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      input[type="password"] { font-size: 1rem; }
+      .nav { font-size: 1rem; bottom: 10px; }
+    }
   </style>
 </head>
 <body class="flicker">
 
-  <video autoplay loop muted playsinline id="bg-video">
+  <video autoplay loop muted playsinline id="bg-video" poster="images/fallback.gif">
     <source src="images/orangesoap1.mp4" type="video/mp4" />
   </video>
 
@@ -179,7 +179,7 @@
     const grain = document.getElementById("grain-video");
     const body = document.body;
 
-    // mouse-reactive blur
+    // blur effect
     document.addEventListener("mousemove", (e) => {
       const x = e.clientX / window.innerWidth;
       const y = e.clientY / window.innerHeight;
@@ -187,6 +187,7 @@
       bgVideo.style.filter = `blur(${blur}px)`;
     });
 
+    // password gate
     input.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
         if (input.value === "Yu-gi-oh!") {
@@ -202,6 +203,24 @@
         }
       }
     });
+
+    // Instagram fallback with GIF
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (ua.includes("Instagram") || ua.includes("FBAN") || ua.includes("FBAV")) {
+      const video = document.getElementById("bg-video");
+      if (video) video.style.display = "none";
+
+      const gif = document.createElement('img');
+      gif.src = 'images/fallback.gif';
+      gif.style.position = 'fixed';
+      gif.style.top = 0;
+      gif.style.left = 0;
+      gif.style.width = '100vw';
+      gif.style.height = '100vh';
+      gif.style.objectFit = 'cover';
+      gif.style.zIndex = 0;
+      document.body.appendChild(gif);
+    }
   </script>
 
 </body>
