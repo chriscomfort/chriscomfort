@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact – Chris Comfort</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      color: white;
+      font-family: 'Times New Roman', serif;
+    }
+
+    @font-face {
+      font-family: 'SnellRoundhand';
+      src: url('fonts/SnellRoundhand.woff2') format('woff2');
+    }
+
+    #bg-video, #grain-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      pointer-events: none;
+      transition: filter 0.2s ease-out, transform 0.2s ease-out;
+    }
+
+    #bg-video { z-index: 0; }
+    #grain-video { z-index: 1; opacity: 0.06; mix-blend-mode: screen; }
+
+    .main-content {
+      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1.email, .about-link {
+      font-family: 'SnellRoundhand', serif;
+      font-size: 1.4rem;
+      cursor: pointer;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, text-shadow 0.3s ease, transform 0.2s ease-out;
+      text-shadow: 0 0 5px white;
+      color: white;
+    }
+
+    h1.email:hover, .about-link:hover {
+      opacity: 1;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+    }
+
+    #copiedMsg {
+      color: #888;
+      font-size: 1rem;
+      display: none;
+    }
+
+    .vignette {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/vignette.png') center center / cover no-repeat;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      z-index: 5;
+      opacity: 1;
+      font-size: 1.2em;
+      font-family: 'SnellRoundhand', serif;
+    }
+
+    .nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s ease, text-shadow 0.3s ease;
+      text-shadow: 0 0 5px white;
+    }
+
+    .nav a:hover {
+      opacity: 1;
+      text-shadow: 0 0 10px white, 0 0 20px white;
+    }
+  </style>
+</head>
+<body class="flicker">
+
+  <video autoplay loop muted playsinline id="bg-video" poster="images/OrangeSoap2.gif">
+    <source src="images/orangesoap1.mp4" type="video/mp4" />
+  </video>
+
+  <video autoplay loop muted playsinline id="grain-video">
+    <source src="images/grain.mp4" type="video/mp4" />
+  </video>
+
+  <div class="main-content">
+    <h1 class="email" id="emailText" onclick="copyEmail()">email@chriscomfort.email</h1>
+    <p id="copiedMsg">Copied to clipboard</p>
+    <a href="https://www.instagram.com/chris_comfort" target="_blank" class="about-link" id="instaLink">Instagram</a>
+    <div class="vignette"></div>
+    <div class="nav" id="navLinks" style="display: none; flex-direction: row; justify-content: center; gap: 40px; position: fixed; top: 20px; width: 100%; text-align: center; font-size: 1.5em; transition: opacity 0.5s ease;">
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+
+  <script>
+    function copyEmail() {
+      const email = 'email@chriscomfort.email';
+      navigator.clipboard.writeText(email);
+      const msg = document.getElementById('copiedMsg');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 2000);
+    }
+
+    const bgVideo = document.getElementById("bg-video");
+    const emailText = document.getElementById("emailText");
+    const instaLink = document.getElementById("instaLink");
+
+    document.addEventListener("mousemove", (e) => {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      const blur = (Math.abs(x - 0.5) + Math.abs(y - 0.5)) * 40;
+      const offsetX = (x - 0.5) * 20;
+      const offsetY = (y - 0.5) * 20;
+
+      bgVideo.style.filter = `blur(${blur}px)`;
+      bgVideo.style.transform = `scale(1.02) translate(${offsetX}px, ${offsetY}px)`;
+      emailText.style.transform = `translate(${offsetX / 2}px, ${offsetY / 2}px)`;
+      instaLink.style.transform = `translate(${offsetX / 2}px, ${offsetY / 2}px)`;
+    });
+  </script>
+
+</body>
+</html>
