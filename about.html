@@ -19,7 +19,7 @@
       src: url('fonts/SnellRoundhand.woff2') format('woff2');
     }
 
-    #bg-video, #grain-video {
+    #bg-video, #grain-video, #fallback-gif {
       position: fixed;
       top: 0;
       left: 0;
@@ -28,10 +28,14 @@
       object-fit: cover;
       pointer-events: none;
       transition: filter 0.2s ease-out, transform 0.2s ease-out;
+      z-index: 0;
     }
 
-    #bg-video { z-index: 0; }
-    #grain-video { z-index: 1; opacity: 0.06; mix-blend-mode: screen; }
+    #grain-video {
+      z-index: 1;
+      opacity: 0.06;
+      mix-blend-mode: screen;
+    }
 
     .main-content {
       opacity: 1;
@@ -160,7 +164,7 @@
   </style>
 </head>
 <body>
-  <video autoplay loop muted playsinline id="bg-video" poster="images/OrangeSoap2.gif">
+  <video autoplay loop muted playsinline id="bg-video">
     <source src="images/orangesoap1.mp4" type="video/mp4" />
   </video>
 
@@ -205,6 +209,11 @@
       if (text) text.style.transform = `translate(${offsetX / 4}px, ${offsetY / 4}px)`;
       if (email) email.style.transform = `translate(${offsetX / 4}px, ${offsetY / 4}px)`;
       if (insta) insta.style.transform = `translate(${offsetX / 4}px, ${offsetY / 4}px)`;
+      const gif = document.getElementById("fallback-gif");
+      if (gif) {
+        gif.style.filter = `blur(${blur}px)`;
+        gif.style.transform = `scale(1.02) translate(${offsetX}px, ${offsetY}px)`;
+      }
     });
 
     const navToggle = document.getElementById("navToggle");
@@ -233,6 +242,24 @@
       const msg = document.getElementById('copiedMsg');
       msg.classList.add('visible');
       setTimeout(() => msg.classList.remove('visible'), 2000);
+    }
+
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (ua.includes("Instagram") || ua.includes("FBAN") || ua.includes("FBAV")) {
+      const video = document.getElementById("bg-video");
+      if (video) video.style.display = "none";
+      const gif = document.createElement('img');
+      gif.id = "fallback-gif";
+      gif.src = 'images/OrangeSoap2.gif';
+      gif.style.position = 'fixed';
+      gif.style.top = 0;
+      gif.style.left = 0;
+      gif.style.width = '100vw';
+      gif.style.height = '100vh';
+      gif.style.objectFit = 'cover';
+      gif.style.zIndex = 0;
+      gif.style.transition = 'filter 0.2s ease-out, transform 0.2s ease-out';
+      document.body.appendChild(gif);
     }
   </script>
 </body>
